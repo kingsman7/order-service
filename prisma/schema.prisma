@@ -5,6 +5,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+  schemas  = ["orders", "public"]
 }
 
 enum OrderStatus {
@@ -12,6 +13,8 @@ enum OrderStatus {
   PAID
   CANCELLED
   COMPLETED
+
+  @@schema("orders")
 }
 
 model Order {
@@ -24,6 +27,7 @@ model Order {
   items       OrderItem[]
 
   @@map("orders")
+  @@schema("orders")
 }
 
 model OrderItem {
@@ -37,4 +41,5 @@ model OrderItem {
   order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
 
   @@map("order_items")
+  @@schema("orders")
 }

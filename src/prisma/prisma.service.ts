@@ -5,7 +5,7 @@ import { PrismaPg } from '@prisma/adapter-pg';
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit, OnModuleDestroy {
   constructor() {
-    const url = process.env.DATABASE_URL
+    const url = process.env.DATABASE_URL ?? 'postgresql://admin:adminpassword@localhost:5433/ecommerce_db?schema=orders';
     
     // Si estás usando el adapter de Postgres
     const adapter = new PrismaPg({ connectionString: url });
