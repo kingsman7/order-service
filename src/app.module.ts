@@ -5,6 +5,9 @@ import { PrismaModule } from './prisma/prisma.module.js';
 import { OrdersController } from './orders/orders.controller.js';
 import { OrdersService } from './orders/orders.service.js';
 
+import { AppController } from './app.controller.js';
+import { AppService } from './app.service.js';
+
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -16,13 +19,13 @@ import { OrdersService } from './orders/orders.service.js';
         options: {
           client: {
             clientId: 'order-service',
-            brokers: [process.env.KAFKA_BROKER || 'localhost:9092'],
+            brokers: (process.env.KAFKA_BROKERS || process.env.KAFKA_BROKER || 'localhost:9092').split(','),
           },
         },
       },
     ]),
   ],
-  controllers: [OrdersController],
-  providers: [OrdersService],
+  controllers: [AppController, OrdersController],
+  providers: [AppService, OrdersService],
 })
 export class AppModule {}
